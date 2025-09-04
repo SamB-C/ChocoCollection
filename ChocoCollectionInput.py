@@ -81,7 +81,8 @@ recording = np.concatenate(recorded_chunks)
 num_frames = len(recording)  # total number of samples
 duration_seconds = num_frames / fs
 print(f"Recorded {duration_seconds:.2f} seconds of audio")
-
+with open("last_recording_duration.txt", "w") as f:
+    f.write(f"{duration_seconds:.2f}")
 
 # ---------------- Convert to mono if needed ----------------
 if num_channels > 1:
