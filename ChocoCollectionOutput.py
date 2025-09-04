@@ -2,11 +2,11 @@ import sounddevice as sd
 import soundfile as sf
 import os
 import sys
-from ChocoModules import playback_bar
+from ChocoModules import playback_bar, recognize_number_from_mic
 import threading
 from rich import print
 
-filename = "output.wav"
+filename = str(recognize_number_from_mic()) + ".wav"
 
 # Check if file exists
 if not os.path.exists(filename):
