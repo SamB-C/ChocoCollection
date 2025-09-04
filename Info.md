@@ -5,19 +5,18 @@ When installing PyAudio, portaudio needs to be installed first:
 
 # WAV files
 
-WAV files <= 10 have special jobs.
-
 Errors:
-0 - "This number was not recognised"
-8 - "This number has already been taken"
+NotRecognised - "This number was not recognised"
+NumberTaken - "This number has already been taken. Say 'Override' to continue anyway, or 'Cancel' to cancel."
 Countdown:
 3, 2, 1 - Me saying the numbers 3, 2, and 1 respectively.
-4 - "Recording in"
-5 - "Please say your number, now:"
+RecordingIn - "Recording in"
+SayNumber - "Please say your number, now:"
 Introduction:
-6 - "Welcome to the Chocolate Bank. Shortly, say the number on the chocolate to check it out."
-7 - "Welcome to the Chocolate Bank recording service. To check in a chocolate as a number, say the number, then record its fun fact."
+WelcomeOutput - "Welcome to the Chocolate Bank. Shortly, say the number on the chocolate to check it out."
+WelcomeInput - "Welcome to the Chocolate Bank recording service. To check in a chocolate as a number, say the number, then record its fun fact."
 Misc:
+Delete - "Would you like to delete this number? Say 'Delete' to delete, or 'Cancel' to exit the program."
 10 - Spare number (Must stay spare)
 
 WAV files > 10 are audio files that can be linked to chocolate bars.

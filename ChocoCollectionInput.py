@@ -4,28 +4,37 @@ import numpy as np
 import threading
 import sys
 import time
-from ChocoModules import playback_bar, recognize_number_from_mic, play_wav, play_wav_quiet
+from ChocoModules import playback_bar, recognize_number_from_mic, play_wav, play_wav_quiet, get_answer_to_prompt
 from rich import print
 import os
 
-number = 10  # Default number if none recognized
+number = "narration/void"  # Default number if none recognized
 try:
-    number = int(sys.argv[1])
+    number = "narration/" + sys.argv[1]
 except IndexError:
     # Play introduction
-    play_wav("7.wav")
+    play_wav("narration/WelcomeInput.wav")
     # Get number
     number = recognize_number_from_mic()
     if number == 0:
-        play_wav("0.wav")
+        play_wav("narration/NotRecognised.wav")
         print("[ERROR] Invalid number recognized, exiting.")
         sys.exit(1)
     # Get all WAV file numbers
     wav_files = [int(f.split(".")[0])
                  for f in os.listdir(".") if f.endswith(".wav")]
     if number in wav_files:
-        play_wav("8.wav")
-        sys.exit(1)
+        print(f"[DEBUG] WAV file for number {number} already exists.")
+        answer = None
+        while answer == None:
+            answer = get_answer_to_prompt(
+                "narration/NumberTaken.wav", "This number has already been taken. Say 'Override' to continue anyway, or 'Cancel' to cancel.", ["override", "over", "cancel"])
+            if answer == "cancel":
+                print("[INFO] Operation cancelled by user.")
+                sys.exit(1)
+            elif answer in ["override", "over"]:
+                print("[INFO] User chose to override existing file.")
+                break
 
 
 # ---------------- Configuration ----------------
@@ -61,11 +70,11 @@ def callback(indata, frames, time, status):
 
 
 # Play a sound to indicate start of recording
-play_wav_quiet("4.wav", False)
+play_wav_quiet("narration/RecordingIn.wav", False)
 print("Recording in:")
 escape_codes = ['bold red', 'bold yellow', 'bold green']  # Red, Yellow, Green
 for i in range(3, 0, -1):
-    play_wav_quiet(f"{i}.wav")
+    play_wav_quiet(f"narration/{i}.wav")
     time.sleep(0.2)
     print(f"[{escape_codes[i-1]}]{i}...[/{escape_codes[i-1]}]\n\n", end="")
     sys.stdout.flush()
