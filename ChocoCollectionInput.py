@@ -6,17 +6,27 @@ import sys
 import time
 from ChocoModules import playback_bar, recognize_number_from_mic, play_wav, play_wav_quiet
 from rich import print
+import os
 
 number = 10  # Default number if none recognized
 try:
     number = int(sys.argv[1])
 except IndexError:
+    # Play introduction
+    play_wav("7.wav")
     # Get number
     number = recognize_number_from_mic()
     if number == 0:
         play_wav("0.wav")
         print("[ERROR] Invalid number recognized, exiting.")
         sys.exit(1)
+    # Get all WAV file numbers
+    wav_files = [int(f.split(".")[0])
+                 for f in os.listdir(".") if f.endswith(".wav")]
+    if number in wav_files:
+        play_wav("8.wav")
+        sys.exit(1)
+
 
 # ---------------- Configuration ----------------
 fs = 44100                  # Sample rate

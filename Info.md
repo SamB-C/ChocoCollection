@@ -7,11 +7,22 @@ When installing PyAudio, portaudio needs to be installed first:
 
 WAV files <= 10 have special jobs.
 
+Errors:
 0 - "This number was not recognised"
+8 - "This number has already been taken"
+Countdown:
 3, 2, 1 - Me saying the numbers 3, 2, and 1 respectively.
 4 - "Recording in"
-5 - "Please say a natural number, now:"
+5 - "Please say your number, now:"
+Introduction:
+6 - "Welcome to the Chocolate Bank. Shortly, say the number on the chocolate to check it out."
+7 - "Welcome to the Chocolate Bank recording service. To check in a chocolate as a number, say the number, then record its fun fact."
+Misc:
 10 - Spare number (Must stay spare)
 
 WAV files > 10 are audio files that can be linked to chocolate bars.
 This is because numbers that are spoken in 1 syllable are not picked up by the speech to text.
+
+To record a wav file with a different name, provide it as an argument to the script ChocoCollectionInput.py
+
+All WAV files must be numbers (ie a set of digits followed by .wav) or line 24 in ChocoCollectionInput.py will break
