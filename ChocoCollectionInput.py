@@ -5,23 +5,13 @@ import threading
 import sys
 import time
 from ChocoModules import playback_bar
+from rich import print
 
 # ---------------- Configuration ----------------
 fs = 44100                  # Sample rate
 max_seconds = 30            # Maximum duration (30 seconds)
 output_file = "output.wav"
 
-# ---------------- Stop event setup ----------------
-stop_flag = threading.Event()
-
-
-def wait_for_enter():
-    input("Press Enter to stop recording...\n")
-    stop_flag.set()
-
-
-# Start thread to listen for Enter key
-threading.Thread(target=wait_for_enter, daemon=True).start()
 
 # ---------------- List devices ----------------
 print("Available audio devices:")
@@ -49,7 +39,27 @@ def callback(indata, frames, time, status):
     recorded_chunks.append(indata.copy())
 
 
-print("Recording... Press Enter to stop or wait for maximum duration (30s).")
+print("Recording in:")
+escape_codes = ['bold red', 'bold yellow', 'bold green']  # Red, Yellow, Green
+for i in range(3, 0, -1):
+    print(f"[{escape_codes[i-1]}]{i}...[/{escape_codes[i-1]}]\n\n", end="")
+    sys.stdout.flush()
+    time.sleep(1)
+print("[bold purple]Recording...[/bold purple]")
+
+print("Press [bold red]Enter to stop[/bold red] or wait for maximum duration ([blue]30s[/blue]).", end="")
+
+# Stop event setup
+stop_flag = threading.Event()
+
+
+def wait_for_enter():
+    input()
+    stop_flag.set()
+
+
+# Start thread to listen for Enter key
+threading.Thread(target=wait_for_enter, daemon=True).start()
 try:
     with sd.InputStream(samplerate=fs, channels=num_channels, dtype='int16',
                         device=input_device, callback=callback):
