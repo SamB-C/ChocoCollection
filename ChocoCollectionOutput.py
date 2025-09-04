@@ -37,6 +37,9 @@ try:
                 # write directly to stream without stopping
                 stream.write(block)
 
+        while not playback_bar_complete.is_set():
+            sd.sleep(100)
+
         print("[INFO] Playback finished successfully!")
 
 except Exception as e:
