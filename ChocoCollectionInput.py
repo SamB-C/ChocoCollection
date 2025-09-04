@@ -4,13 +4,19 @@ import numpy as np
 import threading
 import sys
 import time
-from ChocoModules import playback_bar
+from ChocoModules import playback_bar, recognize_number_from_mic, play_wav
 from rich import print
+
+# Get number
+number = recognize_number_from_mic()
+if number == 0:
+    play_wav("0.wav")
+    print("[ERROR] Invalid number recognized, exiting.")
 
 # ---------------- Configuration ----------------
 fs = 44100                  # Sample rate
 max_seconds = 30            # Maximum duration (30 seconds)
-output_file = "output.wav"
+output_file = f"{number}.wav"
 
 
 # ---------------- List devices ----------------
