@@ -4,14 +4,19 @@ import numpy as np
 import threading
 import sys
 import time
-from ChocoModules import playback_bar, recognize_number_from_mic, play_wav
+from ChocoModules import playback_bar, recognize_number_from_mic, play_wav, play_wav_quiet
 from rich import print
 
-# Get number
-number = recognize_number_from_mic()
-if number == 0:
-    play_wav("0.wav")
-    print("[ERROR] Invalid number recognized, exiting.")
+number = 10  # Default number if none recognized
+try:
+    number = int(sys.argv[1])
+except IndexError:
+    # Get number
+    number = recognize_number_from_mic()
+    if number == 0:
+        play_wav("0.wav")
+        print("[ERROR] Invalid number recognized, exiting.")
+        sys.exit(1)
 
 # ---------------- Configuration ----------------
 fs = 44100                  # Sample rate
@@ -45,9 +50,13 @@ def callback(indata, frames, time, status):
     recorded_chunks.append(indata.copy())
 
 
+# Play a sound to indicate start of recording
+play_wav_quiet("4.wav", False)
 print("Recording in:")
 escape_codes = ['bold red', 'bold yellow', 'bold green']  # Red, Yellow, Green
 for i in range(3, 0, -1):
+    play_wav_quiet(f"{i}.wav")
+    time.sleep(0.2)
     print(f"[{escape_codes[i-1]}]{i}...[/{escape_codes[i-1]}]\n\n", end="")
     sys.stdout.flush()
     time.sleep(1)
