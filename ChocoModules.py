@@ -12,6 +12,10 @@ import sys
 from pathlib import Path
 
 
+def get_script_dir():
+    return os.path.dirname(os.path.abspath(__file__))
+
+
 def check_inside_venv():
     # Path to your project's venv (adjust if needed)
     VENV_PATH = Path(__file__).parent / "venv"
@@ -22,7 +26,7 @@ def check_inside_venv():
 
     if not str(VENV_PATH) in sys.prefix:
         print(f"""
-    [ERROR] You are not running inside the expected virtual environment!
+    You are not running inside the expected virtual environment!
 
     Expected venv: {VENV_PATH}
     Current sys.prefix: {sys.prefix}
@@ -93,7 +97,7 @@ def recognize_number_from_mic():
             print("Adjusting for ambient noise...")
             r.adjust_for_ambient_noise(source, duration=1)
             # Play "Please say a natural number, now: "
-            play_wav("narration/SayNumber.wav")
+            play_wav(f"{get_script_dir()}/narration/SayNumber.wav")
             print("Please say a natural number:")
             audio = r.listen(source, timeout=5, phrase_time_limit=10)
     except sr.WaitTimeoutError:

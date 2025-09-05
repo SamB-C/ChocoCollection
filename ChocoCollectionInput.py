@@ -4,22 +4,24 @@ import numpy as np
 import threading
 import sys
 import time
-from ChocoModules import playback_bar, recognize_number_from_mic, play_wav, play_wav_quiet, get_answer_to_prompt, check_inside_venv
+from ChocoModules import playback_bar, recognize_number_from_mic, play_wav, play_wav_quiet, get_answer_to_prompt, check_inside_venv, get_script_dir
 from rich import print
 import os
 
 check_inside_venv()
+
+script_dir = get_script_dir()
 
 number = "narration/void"  # Default number if none recognized
 try:
     number = "narration/" + sys.argv[1]
 except IndexError:
     # Play introduction
-    play_wav("narration/WelcomeInput.wav")
+    play_wav(f"{script_dir}/narration/WelcomeInput.wav")
     # Get number
     number = recognize_number_from_mic()
     if number == 0:
-        play_wav("narration/NotRecognised.wav")
+        play_wav(f"{script_dir}/narration/NotRecognised.wav")
         print("Invalid number recognized, exiting.")
         sys.exit(1)
     # Get all WAV file numbers
@@ -30,7 +32,7 @@ except IndexError:
         answer = None
         while answer == None:
             answer = get_answer_to_prompt(
-                "narration/NumberTaken.wav", "This number has already been taken. Say 'Override' to continue anyway, or 'Cancel' to cancel.", ["override", "over", "cancel"])
+                f"{script_dir}/narration/NumberTaken.wav", "This number has already been taken. Say 'Override' to continue anyway, or 'Cancel' to cancel.", ["override", "over", "cancel"])
             if answer == "cancel":
                 print("Operation cancelled.")
                 sys.exit(1)
@@ -42,7 +44,7 @@ except IndexError:
 # ---------------- Configuration ----------------
 fs = 44100                  # Sample rate
 max_seconds = 30            # Maximum duration (30 seconds)
-output_file = f"{number}.wav"
+output_file = f"{script_dir}/{number}.wav"
 
 
 # ---------------- List devices ----------------
@@ -72,11 +74,11 @@ def callback(indata, frames, time, status):
 
 
 # Play a sound to indicate start of recording
-play_wav_quiet("narration/RecordingIn.wav", False)
+play_wav_quiet(f"{script_dir}/narration/RecordingIn.wav", False)
 print("Recording in:")
 escape_codes = ['bold red', 'bold yellow', 'bold green']  # Red, Yellow, Green
 for i in range(3, 0, -1):
-    play_wav_quiet(f"narration/{i}.wav")
+    play_wav_quiet(f"{script_dir}/narration/{i}.wav")
     time.sleep(0.2)
     print(f"[{escape_codes[i-1]}]{i}...[/{escape_codes[i-1]}]\n\n", end="")
     sys.stdout.flush()

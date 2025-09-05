@@ -8,11 +8,11 @@ source "$(dirname "$0")/venv/bin/activate"
 case "$1" in
   input)
     shift  # remove "input" from args
-    python ChocoCollectionInput.py "$@"
+    python "$(dirname "$0")/ChocoCollectionInput.py" "$@"
     ;;
   output)
     shift  # remove "output" from args
-    python ChocoCollectionOutput.py "$@"
+    python "$(dirname "$0")/ChocoCollectionOutput.py" "$@"
     ;;
   *)
     echo "Usage: $0 {input|output} [args...]"
