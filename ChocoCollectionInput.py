@@ -4,9 +4,11 @@ import numpy as np
 import threading
 import sys
 import time
-from ChocoModules import playback_bar, recognize_number_from_mic, play_wav, play_wav_quiet, get_answer_to_prompt
+from ChocoModules import playback_bar, recognize_number_from_mic, play_wav, play_wav_quiet, get_answer_to_prompt, check_inside_venv
 from rich import print
 import os
+
+check_inside_venv()
 
 number = "narration/void"  # Default number if none recognized
 try:

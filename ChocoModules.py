@@ -8,6 +8,31 @@ import threading
 import sounddevice as sd
 import soundfile as sf
 from rich import print
+import sys
+from pathlib import Path
+
+
+def check_inside_venv():
+    # Path to your project's venv (adjust if needed)
+    VENV_PATH = Path(__file__).parent / "venv"
+
+    # Check if we're running inside the venv
+    real_prefix = getattr(sys, "real_prefix", None) or getattr(
+        sys, "base_prefix", sys.prefix)
+
+    if not str(VENV_PATH) in sys.prefix:
+        print(f"""
+    [ERROR] You are not running inside the expected virtual environment!
+
+    Expected venv: {VENV_PATH}
+    Current sys.prefix: {sys.prefix}
+
+    Please run the program using:
+        source .venv/bin/activate
+    or
+        ./run.sh
+    """)
+        sys.exit(1)
 
 
 def get_number_from_text(text):

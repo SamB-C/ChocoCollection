@@ -7,8 +7,8 @@
 
 # Running the program
 
-Run `python3 ChocoCollectionInput.py` to input a new chocolate.
-Run `python3 ChocoCollectionOutput.py` to output an existing chocolate.
+Run `./run.sh input` to input a new chocolate.
+Run `./run.sh output` to output an existing chocolate.
 
-To override narrations, provide the name of a narration file as an argument to `ChocoCollectionInput.py`, and read off the script in `Info.md`.
-For example, to `python3 ChocoCollectionInput.py WelcomeInput`
+To override narrations, provide the name of a narration file as an argument to `./run.sh input`, and read off the script in `Info.md`.
+For example, to `./run.sh input WelcomeInput`
