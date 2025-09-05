@@ -1,4 +1,5 @@
 from ChocoModules import recognize_number_from_mic, play_wav, get_answer_to_prompt, get_script_dir
+import os
 
 script_dir = get_script_dir()
 
@@ -14,5 +15,6 @@ while answer == None:
         print("Operation cancelled.")
         break
     elif answer == "delete":
+        os.remove(filename)
         print("Number deleted.")
         break
