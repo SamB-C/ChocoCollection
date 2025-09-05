@@ -18,22 +18,22 @@ except IndexError:
     number = recognize_number_from_mic()
     if number == 0:
         play_wav("narration/NotRecognised.wav")
-        print("[ERROR] Invalid number recognized, exiting.")
+        print("Invalid number recognized, exiting.")
         sys.exit(1)
     # Get all WAV file numbers
     wav_files = [int(f.split(".")[0])
                  for f in os.listdir(".") if f.endswith(".wav")]
     if number in wav_files:
-        print(f"[DEBUG] WAV file for number {number} already exists.")
+        print(f"WAV file for number {number} already exists.")
         answer = None
         while answer == None:
             answer = get_answer_to_prompt(
                 "narration/NumberTaken.wav", "This number has already been taken. Say 'Override' to continue anyway, or 'Cancel' to cancel.", ["override", "over", "cancel"])
             if answer == "cancel":
-                print("[INFO] Operation cancelled by user.")
+                print("Operation cancelled.")
                 sys.exit(1)
             elif answer in ["override", "over"]:
-                print("[INFO] User chose to override existing file.")
+                print("Overriding existing number.")
                 break
 
 
@@ -65,7 +65,7 @@ recorded_chunks = []
 
 def callback(indata, frames, time, status):
     if status:
-        print(f"[WARNING] {status}")
+        print(f"[red]WARNING {status}[/red]")
     recorded_chunks.append(indata.copy())
 
 
@@ -103,12 +103,12 @@ try:
             sd.sleep(100)  # sleep briefly to reduce CPU usage
             total_frames += 100
 except Exception as e:
-    print(f"[ERROR] Recording failed: {e}")
+    print(f"[red]Recording failed:[/red] {e}")
     sys.exit(1)
 
 # Combine all recorded chunks
 if not recorded_chunks:
-    print("[ERROR] No audio recorded!")
+    print("[red]No audio recorded![/red]")
     sys.exit(1)
 
 recording = np.concatenate(recorded_chunks)
@@ -128,7 +128,7 @@ try:
     write(output_file, fs, recording_mono)
     print(f"Saved recording to '{output_file}'")
 except Exception as e:
-    print(f"[ERROR] Failed to save WAV file: {e}")
+    print(f"[red]Failed to save WAV file:[/red] {e}")
     sys.exit(1)
 
 # ---------------- Playback ----------------
@@ -145,5 +145,5 @@ try:
     while not progressBarComplete.is_set():
         time.sleep(0.1)
 except Exception as e:
-    print(f"[ERROR] Playback failed: {e}")
+    print(f"[red]Playback failed:[/red] {e}")
     sys.exit(1)

@@ -30,32 +30,33 @@ def get_answer_to_prompt(prompt, prompt_text, answers):
     audio = None
     try:
         with sr.Microphone() as source:
-            print("[DEBUG] Adjusting for ambient noise...")
+            print("Adjusting for ambient noise...")
             r.adjust_for_ambient_noise(source, duration=1)
             play_wav(prompt)
             print(prompt_text)
             audio = r.listen(source, timeout=5, phrase_time_limit=10)
     except sr.WaitTimeoutError:
-        print("[ERROR] No speech detected within timeout")
+        print("[red]No speech detected within timeout[/red]")
         return None
     except Exception as e:
-        print(f"[ERROR] Failed to access microphone: {e}")
+        print(f"[red]Failed to access microphone:[/red] {e}")
         return None
 
     try:
         text = r.recognize_google(audio)
-        print(f"[DEBUG] Recognized speech: '{text}'")
+        print(f"Recognized speech: [bold purple]'{text}'[/bold purple]")
         if text.lower() in answers:
-            print(f"[DEBUG] Matched answer: {text.lower()}")
+            print(f"Matched answer: [bold green]{text.lower()}[/bold green]")
             play_audio_back(audio)
             return text.lower()
         else:
-            print(f"[DEBUG] No match for recognized text: '{text.lower()}'")
+            print(
+                f"No match for recognized text: [/bold red]'{text.lower()}'[/bold red]")
             return None
     except sr.UnknownValueError:
-        print("[ERROR] Could not understand audio")
+        print("[red]Could not understand audio[/red]")
     except sr.RequestError as e:
-        print(f"[ERROR] Could not request results from Google API: {e}")
+        print(f"[red]Could not request results from Google API:[red] {e}")
     return 0
 
 
@@ -64,30 +65,30 @@ def recognize_number_from_mic():
     audio = None
     try:
         with sr.Microphone() as source:
-            print("[DEBUG] Adjusting for ambient noise...")
+            print("Adjusting for ambient noise...")
             r.adjust_for_ambient_noise(source, duration=1)
             # Play "Please say a natural number, now: "
             play_wav("narration/SayNumber.wav")
             print("Please say a natural number:")
             audio = r.listen(source, timeout=5, phrase_time_limit=10)
     except sr.WaitTimeoutError:
-        print("[ERROR] No speech detected within timeout")
+        print("[red]No speech detected within timeout.[/red]")
         return None
     except Exception as e:
-        print(f"[ERROR] Failed to access microphone: {e}")
+        print(f"[red]Failed to access microphone:[/red] {e}")
         return None
 
     try:
         text = r.recognize_google(audio)
-        print(f"[DEBUG] Recognized speech: '{text}'")
+        print(f"Recognized speech: [bold purple]'{text}'[/bold purple]")
         number = get_number_from_text(text.lower())
-        print(f"[DEBUG] Converted to integer: {number}")
+        print(f"Converted to integer: [bold green]{number}[/bold green]")
         play_audio_back(audio)
         return number
     except sr.UnknownValueError:
-        print("[ERROR] Could not understand audio")
+        print("[red]Could not understand audio[/red]")
     except sr.RequestError as e:
-        print(f"[ERROR] Could not request results from Google API: {e}")
+        print(f"[red]Could not request results from Google API:[/red] {e}")
     return 0
 
 
@@ -110,7 +111,7 @@ def playback_bar(duration_seconds, barCompleteEvent=None):
 def play_wav(filename):
     # Check if file exists
     if not os.path.exists(filename):
-        print(f"[ERROR] File '{filename}' does not exist!")
+        print(f"[red]File [bold]'{filename}'[/bold] does not exist![/red]")
         sys.exit(1)
 
     # Start progress bar in a separate thread
@@ -119,11 +120,11 @@ def play_wav(filename):
     try:
         with sf.SoundFile(filename, 'r') as file:
             duration_seconds = len(file) / file.samplerate
-            print(f"[INFO] Playing '{filename}'")
-            print(f"        Sample rate: {file.samplerate} Hz")
-            print(f"        Channels: {file.channels}")
-            print(f"        Frames: {len(file)}")
-            print(f"        Duration: {duration_seconds:.2f} seconds")
+            print(f"Playing '{filename}'")
+            print(f"\tSample rate: {file.samplerate} Hz")
+            print(f"\tChannels: {file.channels}")
+            print(f"\tFrames: {len(file)}")
+            print(f"\tDuration: {duration_seconds:.2f} seconds")
             print()
             threading.Thread(target=lambda: playback_bar(
                 duration_seconds, playback_bar_complete), daemon=True).start()
@@ -139,10 +140,10 @@ def play_wav(filename):
             while not playback_bar_complete.is_set():
                 sd.sleep(100)
 
-            print("[INFO] Playback finished successfully!")
+            print("Playback finished successfully!")
 
     except Exception as e:
-        print(f"[ERROR] Playback failed: {e}")
+        print(f"[red]Playback failed:[/red] {e}")
         sys.exit(1)
 
 
@@ -150,7 +151,7 @@ def play_wav_quiet(filename, alternate_thread=True):
     """ Play a WAV in a seperate thread, without printing any information """
     # Check if file exists
     if not os.path.exists(filename):
-        print(f"[ERROR] File '{filename}' does not exist!")
+        print(f"[red]File [bold]'{filename}'[/bold] does not exist![/red]")
         sys.exit(1)
 
     def play_file():
@@ -166,7 +167,7 @@ def play_wav_quiet(filename, alternate_thread=True):
                         stream.write(block)
 
         except Exception as e:
-            print(f"[ERROR] Playback failed: {e}")
+            print(f"[red]Playback failed:[/red] {e}")
             sys.exit(1)
 
     if alternate_thread:
