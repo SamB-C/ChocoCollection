@@ -20,7 +20,7 @@ except IndexError:
     play_wav(f"{script_dir}/narration/WelcomeInput.wav")
     # Get number
     number = recognize_number_from_mic()
-    if number == 0:
+    if number == 0 or number == None:
         play_wav(f"{script_dir}/narration/NotRecognised.wav")
         print("Invalid number recognized, exiting.")
         sys.exit(1)
