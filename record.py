@@ -1,5 +1,5 @@
 import sys
-from ChocoModules import check_inside_venv, get_script_dir, get_answer_to_prompt, play_back, play_recording_countdown, record_and_save
+from ChocoModules import check_inside_venv, get_recording, get_script_dir, get_answer_to_prompt, play_back, play_recording_countdown, save_recording
 import os
 
 check_inside_venv()
@@ -44,9 +44,11 @@ except IndexError:
 
 
 backup_counter = 0
+recording = None
+fs = None
 while backup_counter < 100:
     #  Record
-    recording, fs, duration_seconds = record_and_save(output_file)
+    recording, fs, duration_seconds = get_recording()
 
     # Play back
     play_back(recording, fs, duration_seconds)
@@ -66,3 +68,6 @@ while backup_counter < 100:
 if backup_counter == 100:
     print("Too many attempts. Exiting.")
     sys.exit(1)
+
+print("Saving recording...")
+save_recording(output_file, recording, fs)

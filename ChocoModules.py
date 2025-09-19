@@ -97,7 +97,7 @@ def get_answer_to_prompt(prompt, prompt_text, answers):
             return text.lower()
         else:
             print(
-                f"No match for recognized text: [/bold red]'{text.lower()}'[/bold red]")
+                f"No match for recognized text: [bold red]'{text.lower()}'[/bold red]")
             return None
     except sr.UnknownValueError:
         print("[red]Could not understand audio[/red]")
@@ -224,7 +224,7 @@ def play_wav_quiet(filename, alternate_thread=True):
         play_file()
 
 
-def record_and_save(output_file):
+def get_recording():
     """Record audio from the microphone and save to the output file as WAV. Returns (recording_mono, fs, duration_seconds)"""
     # ---------------- Configuration ----------------
     fs = 44100                  # Sample rate
@@ -296,6 +296,10 @@ def record_and_save(output_file):
     else:
         recording_mono = recording
 
+    return recording_mono, fs, duration_seconds
+
+
+def save_recording(output_file, recording_mono, fs):
     # ---------------- Save WAV ----------------
     try:
         write(output_file, fs, recording_mono)
@@ -303,8 +307,6 @@ def record_and_save(output_file):
     except Exception as e:
         print(f"[red]Failed to save WAV file:[/red] {e}")
         sys.exit(1)
-
-    return recording_mono, fs, duration_seconds
 
 
 def play_back(recording_mono, fs, duration_seconds):

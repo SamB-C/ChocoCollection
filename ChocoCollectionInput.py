@@ -1,5 +1,5 @@
 import sys
-from ChocoModules import play_back, recognize_number_from_mic, play_wav, get_answer_to_prompt, check_inside_venv, get_script_dir, record_and_save
+from ChocoModules import get_recording, play_back, recognize_number_from_mic, play_wav, get_answer_to_prompt, check_inside_venv, get_script_dir, save_recording
 from rich import print
 import os
 
@@ -37,7 +37,8 @@ def main():
             sys.exit(1)
 
     output_file = f"{script_dir}/{number}.wav"
-    recording_mono, fs, duration_seconds = record_and_save(output_file)
+    recording_mono, fs, duration_seconds = get_recording()
+    save_recording(output_file, recording_mono, fs)
 
     # ---------------- Playback ----------------
 
