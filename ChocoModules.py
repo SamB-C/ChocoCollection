@@ -55,6 +55,7 @@ def play_audio_back(audio):
 
 
 def get_answer_to_prompt(prompt, prompt_text, answers):
+    """ Play a prompt and listen for one of the specified answers. Returns the matched answer in lowercase, or None if no match. """
     r = sr.Recognizer()
     audio = None
     try:
@@ -84,8 +85,10 @@ def get_answer_to_prompt(prompt, prompt_text, answers):
             return None
     except sr.UnknownValueError:
         print("[red]Could not understand audio[/red]")
+        return None
     except sr.RequestError as e:
         print(f"[red]Could not request results from Google API:[red] {e}")
+        return None
     return 0
 
 
