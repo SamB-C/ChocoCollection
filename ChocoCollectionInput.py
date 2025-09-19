@@ -1,5 +1,5 @@
 import sys
-from ChocoModules import get_recording, play_back, recognize_number_from_mic, play_wav, get_answer_to_prompt, check_inside_venv, get_script_dir, save_recording
+from ChocoModules import get_next_number, get_recording, play_back, recognize_number_from_mic, play_wav, get_answer_to_prompt, check_inside_venv, get_script_dir, save_recording
 from rich import print
 import os
 
@@ -10,6 +10,8 @@ def main():
     # Play introduction
     play_wav(f"{script_dir}/narration/WelcomeInput.wav")
     # Get number
+    print(
+        f"\n\n[bold yellow]The next available number is: {get_next_number()}[/bold yellow]\n\n")
     number = recognize_number_from_mic()
     if number == None:
         play_wav(f"{script_dir}/narration/NotRecognised.wav")

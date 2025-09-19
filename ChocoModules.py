@@ -59,6 +59,21 @@ def get_number_from_text(text):
     return int(text)
 
 
+def get_next_number():
+    """ Gets the next available number for saving a new recording """
+    numbers = [int(f.split(".")[0])
+               for f in os.listdir(".") if f.endswith(".wav")]
+    if numbers == []:
+        return 11
+    next_number = 11
+    while next_number in numbers and next_number < 1000:
+        next_number += 1
+    if next_number >= 1000:
+        print("[red]No available numbers left![/red]")
+        sys.exit(1)
+    return next_number
+
+
 def play_audio_back(audio):
     # Convert AudioData to numpy array
     raw_data = np.frombuffer(audio.get_raw_data(), dtype=np.int16)
