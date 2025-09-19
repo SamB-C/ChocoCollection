@@ -13,8 +13,8 @@ Countdown:
 RecordingIn - "Recording in"
 SayNumber - "Please say your number, now:"
 Introduction:
-WelcomeOutput - "Welcome to the Chocolate Bank. Shortly, say the number on the chocolate to check it out."
-WelcomeInput - "Welcome to the Chocolate Bank recording service. To check in a chocolate as a number, say the number, then record its fun fact."
+WelcomeOutput - "Shortly, say your number to output its recording."
+WelcomeInput - "Shortly, say the number you want to add."
 Misc:
 Delete - "Would you like to delete this number? Say 'Delete' to delete, or 'Cancel' to exit the program."
 ConfirmRecording - "Are you happy with the recoding? Say 'Confirm' to confirm, or 'Redo' to redo."
