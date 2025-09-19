@@ -9,9 +9,10 @@
 
 Run `./run.sh input` to input a new chocolate.
 Run `./run.sh output` to output an existing chocolate.
+Run `./run.sh record` to record a narration.
 
-To override narrations, provide the name of a narration file as an argument to `./run.sh input`, and read off the script in `Info.md`.
-For example, to `./run.sh input WelcomeInput`
+To override narrations, provide the name of a narration file as an argument to `./run.sh record`, and read off the script in `Info.md`.
+For example, to `./run.sh record WelcomeInput`
 
 ## Fun ways to run the program  
 For MacOS, use Automator.app

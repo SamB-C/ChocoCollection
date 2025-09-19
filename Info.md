@@ -17,6 +17,7 @@ WelcomeOutput - "Welcome to the Chocolate Bank. Shortly, say the number on the c
 WelcomeInput - "Welcome to the Chocolate Bank recording service. To check in a chocolate as a number, say the number, then record its fun fact."
 Misc:
 Delete - "Would you like to delete this number? Say 'Delete' to delete, or 'Cancel' to exit the program."
+ConfirmRecording - "Are you happy with the recoding? Say 'Confirm' to confirm, or 'Redo' to redo."
 10 - Spare number (Must stay spare)
 
 WAV files > 10 are audio files that can be linked to chocolate bars.

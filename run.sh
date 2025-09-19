@@ -14,8 +14,12 @@ case "$1" in
     shift  # remove "output" from args
     python3 "$(dirname "$0")/ChocoCollectionOutput.py" "$@"
     ;;
+  record)
+    shift  # remove "record" from args
+    python3 "$(dirname "$0")/record.py" "$@"
+    ;;
   *)
-    echo "Usage: $0 {input|output} [args...]"
+    echo "Usage: $0 {input|output|record} [args...]"
     exit 1
     ;;
 esac

@@ -64,8 +64,8 @@ def play_audio_back(audio):
     raw_data = np.frombuffer(audio.get_raw_data(), dtype=np.int16)
     sample_rate = audio.sample_rate
 
-    # Play back the recording
-    print("Playing back your recording...")
+    # Play back the audio
+    print("Playing back your audio...")
     sd.play(raw_data, samplerate=sample_rate)
     sd.wait()
 
@@ -134,9 +134,10 @@ def recognize_number_from_mic():
         return number
     except sr.UnknownValueError:
         print("[red]Could not understand audio[/red]")
+        return None
     except sr.RequestError as e:
         print(f"[red]Could not request results from Google API:[/red] {e}")
-    return 0
+        return None
 
 
 def playback_bar(duration_seconds, barCompleteEvent=None):
